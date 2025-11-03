@@ -1,9 +1,7 @@
-
 variable "subscription_id" {
   description = "Azure subscription ID to use for deployment"
   type        = string
 }
-
 
 variable "resource_group_name" {
   description = "Name of the resource group"
@@ -24,14 +22,15 @@ variable "storage_account_name" {
 variable "containers" {
   description = "List of containers to create"
   type        = list(string)
-  default     = ["staging", "bronze", "silver", "gold"]
+  default     = ["stage", "bronze", "silver", "gold"]
 }
 
 variable "staging_folders" {
   description = "List of folders to create inside the staging container"
   type        = list(string)
   default     = [
-    "frc/pnc/ram/facilities",
-    "frc/ny/gis/tline"
+    "ferc/pt/raw/facl",
+    "ferc/pt/input/facl",
+ 
   ]
 }
