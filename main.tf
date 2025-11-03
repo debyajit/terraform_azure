@@ -1,7 +1,6 @@
 provider "azurerm" {
   features {}
   subscription_id = var.subscription_id
-
 }
 
 resource "azurerm_resource_group" "rg" {
@@ -18,7 +17,6 @@ resource "azurerm_storage_account" "adls" {
   is_hns_enabled           = true
 }
 
-
 resource "azurerm_storage_container" "containers" {
   for_each              = toset(var.containers)
   name                  = each.value
@@ -28,9 +26,8 @@ resource "azurerm_storage_container" "containers" {
 
 resource "azurerm_storage_data_lake_gen2_path" "staging_folders" {
   for_each = {
-    for folder in var.staging_folders :
-    folder => {
-      container_name = "staging"
+    for folder in var.staging_folders : folder => {
+      container_name = "stage"
       path           = folder
     }
   }
@@ -40,7 +37,5 @@ resource "azurerm_storage_data_lake_gen2_path" "staging_folders" {
   path               = each.value.path
   resource           = "directory"
 
-  depends_on = [
-    azurerm_storage_container.containers["staging"]
-  ]
+  depends_on = [azurerm_storage_container.containers["stage"]]
 }
